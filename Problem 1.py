@@ -15,7 +15,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 def CentralLimitTheorem(N) :
-    n = 5
+    n = 15
     S = []
     # X is the array with the values of the RV to be plotted
     a = 1; b = 3;           # a = min bookwidth; b = max bookwidth
@@ -29,6 +29,7 @@ def CentralLimitTheorem(N) :
     # Create bins and histogram
     bins = [float(x) for x in np.linspace(nbooks*a, nbooks*b, nbins+1)]
     h1, bin_edges = np.histogram(S, bins, density=True)
+    # Define points on the horizontal axis
     be1 = bin_edges[0:np.size(bin_edges)-1]
     be2 = bin_edges[1:np.size(bin_edges)]
     b1 = (be1+be2)/2

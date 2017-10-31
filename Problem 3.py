@@ -27,4 +27,41 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 def SumRV(N) :
+    beta = 45
+    C = []
+    for k in range(N) :
+        T = np.random.exponential(beta, 24)
+        C.append(sum(T))
     
+    nbins=100
+    # Create bins and histogram
+    bins = [float(x) for x in np.linspace(min(C), max(C), nbins)]
+    h1, bin_edges = np.histogram(C, bins, density=True)
+    # Define points on the horizontal axis
+    be1 = bin_edges[0:np.size(bin_edges)-1]
+    be2 = bin_edges[1:np.size(bin_edges)]
+    b1 = (be1+be2)/2
+    barwidth = b1[1]-b1[0]    # width of bars in the bargraph
+    # close('all')
+    #
+    fig1 = plt.figure(1)
+    plt.bar(b1, h1, width=barwidth, edgecolor='w')
+    
+    mu = 24 * beta
+    sigma = beta * np.sqrt(24)
+    fx1 = 1/(sigma * np.sqrt(2 * np.pi))
+    fx2 = np.exp(-((bin_edges-mu)**2)/(2*((sigma)**2)))
+    fx = fx1 * fx2
+    plt.plot(bins, fx, color='r')
+    
+    plt.title('PDF of sum of random variables and comparison with normal distribution')
+    plt.xlabel('Days')
+    plt.ylabel('Probability of lifetime')
+    
+    fig2 = plt.figure(2)
+    H1 = np.cumsum(h1) * barwidth
+    plt.bar(b1, H1, width=barwidth, edgecolor='w')
+    
+    plt.title('CDF plot of the lifetime of one carton')
+    plt.xlabel('Days')
+    plt.ylabel('Probability of lifetime')
